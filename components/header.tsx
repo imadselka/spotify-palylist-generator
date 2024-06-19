@@ -1,3 +1,4 @@
+// File: components/header.tsx
 import Link from "next/link";
 import { Button } from "./ui/button";
 
@@ -5,6 +6,7 @@ const Header = () => {
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const REDIRECT_URI = "http://localhost:3000/playlist-generator";
   const RESPONSE_TYPE = "token";
+
   return (
     <>
       <div>
@@ -18,7 +20,7 @@ const Header = () => {
       </div>
       <div className="flex justify-center items-center mt-2">
         <Link
-          href={`${AUTH_ENDPOINT}?client_id=${process.env.client_id}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}
+          href={`${AUTH_ENDPOINT}?client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}
         >
           <Button>Login with Spotify</Button>
         </Link>
