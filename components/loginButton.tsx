@@ -1,11 +1,11 @@
-// File: components/header.tsx
+// components/LoginButton.tsx
 import Link from "next/link";
+
+import useSpotifyAuth from "@/hook/useSpotifyAuth";
 import { Button } from "./ui/button";
 
-const Header = () => {
-  const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
-  const REDIRECT_URI = "http://localhost:3000/playlist-generator";
-  const RESPONSE_TYPE = "token";
+const LoginButton = () => {
+  const { loginUrl } = useSpotifyAuth();
 
   return (
     <>
@@ -19,9 +19,7 @@ const Header = () => {
         </p>
       </div>
       <div className="flex justify-center items-center mt-2">
-        <Link
-          href={`${AUTH_ENDPOINT}?client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}
-        >
+        <Link href={loginUrl}>
           <Button>Login with Spotify</Button>
         </Link>
       </div>
@@ -29,4 +27,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default LoginButton;
