@@ -24,8 +24,8 @@ import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 
 const PlaylistGenerator = () => {
   const { logout } = useSpotifyLogout();
-  const { redirectToSpotify, loading } = useSpotifyAccount();
-  const { playlists, loading, error } = useGetUsersPlaylists();
+  const { redirectToSpotify, loadingAccount } = useSpotifyAccount();
+  const { playlistTotal, loading, error } = useGetUsersPlaylists();
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
@@ -53,7 +53,7 @@ const PlaylistGenerator = () => {
                 <ShoppingCart className="h-4 w-4" />
                 Your Playlists
                 <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                  6
+                  {playlistTotal}
                 </Badge>
               </Link>
             </nav>
@@ -96,7 +96,7 @@ const PlaylistGenerator = () => {
                   <ShoppingCart className="h-5 w-5" />
                   Your Playlists
                   <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                    6
+                    {playlistTotal}
                   </Badge>
                 </Link>
               </nav>

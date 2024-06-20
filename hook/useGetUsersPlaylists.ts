@@ -11,6 +11,7 @@ const useGetUsersPlaylists = () => {
   } = useGetUserId(token);
   const [playlists, setPlaylists] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [playlistTotal, setPlaylistTotal] = useState<any>(0);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -36,6 +37,7 @@ const useGetUsersPlaylists = () => {
 
         const data = await response.json();
         setPlaylists(data.items); // Assuming 'items' is an array of playlists from Spotify API
+        setPlaylistTotal(data.total);
       } catch (error) {
         setError(error as unknown as string);
       } finally {
@@ -50,6 +52,7 @@ const useGetUsersPlaylists = () => {
     playlists,
     loading: loading || userIdLoading,
     error: error || userIdError,
+    playlistTotal: playlistTotal,
   };
 };
 
