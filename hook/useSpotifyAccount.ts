@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 
 const useSpotifyAccount = () => {
-  const [loading, setLoading] = useState(false);
+  const [loadingAccount, setLoadingAccount] = useState(false);
 
   const redirectToSpotify = useCallback(async () => {
     const token = localStorage.getItem("spotifyToken");
@@ -11,7 +11,7 @@ const useSpotifyAccount = () => {
       return;
     }
 
-    setLoading(true);
+    setLoadingAccount(true);
 
     try {
       const response = await fetch("https://api.spotify.com/v1/me", {
@@ -36,11 +36,11 @@ const useSpotifyAccount = () => {
     } catch (error) {
       console.error(error);
     } finally {
-      setLoading(false);
+      setLoadingAccount(false);
     }
   }, []);
 
-  return { redirectToSpotify, loading };
+  return { redirectToSpotify, loadingAccount };
 };
 
 export default useSpotifyAccount;
