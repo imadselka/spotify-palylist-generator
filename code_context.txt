@@ -1,11 +1,12 @@
 // File: components/loginButton.tsx
+// components/LoginButton.tsx
 import Link from "next/link";
+
+import useSpotifyAuth from "@/hook/useSpotifyAuth";
 import { Button } from "./ui/button";
 
 const LoginButton = () => {
-  const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
-  const REDIRECT_URI = "http://localhost:3000/playlist-generator";
-  const RESPONSE_TYPE = "token";
+  const { loginUrl } = useSpotifyAuth();
 
   return (
     <>
@@ -19,9 +20,7 @@ const LoginButton = () => {
         </p>
       </div>
       <div className="flex justify-center items-center mt-2">
-        <Link
-          href={`${AUTH_ENDPOINT}?client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}
-        >
+        <Link href={loginUrl}>
           <Button>Login with Spotify</Button>
         </Link>
       </div>
@@ -31,28 +30,23 @@ const LoginButton = () => {
 
 export default LoginButton;
 
+// File: components/mainUI.tsx
+
 // File: components/playListGenerator.tsx
+import useGetUsersPlaylists from "@/hook/useGetUsersPlaylists";
+import useSpotifyAccount from "@/hook/useSpotifyAccount";
+import useSpotifyLogout from "@/hook/useSpotifyLogout";
 import {
   CircleUser,
   Home,
-  LineChart,
   Menu,
-  Package,
   Package2,
   Search,
   ShoppingCart,
-  Users,
 } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "./ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -64,6 +58,10 @@ import { Input } from "./ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 
 const PlaylistGenerator = () => {
+  const { logout } = useSpotifyLogout();
+  const { redirectToSpotify, loadingAccount } = useSpotifyAccount();
+  const { playlistTotal, loading, error } = useGetUsersPlaylists();
+
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <div className="hidden border-r bg-muted/40 md:block">
@@ -77,20 +75,20 @@ const PlaylistGenerator = () => {
           <div className="flex-1">
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
               <Link
-                href="generate"
+                href="/playlist-generator"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
               >
                 <Home className="h-4 w-4" />
                 Generations
               </Link>
               <Link
-                href="your-playlists"
+                href="/playlist-generator/your-playlists"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
               >
                 <ShoppingCart className="h-4 w-4" />
                 Your Playlists
                 <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                  6
+                  {playlistTotal}
                 </Badge>
               </Link>
             </nav>
@@ -117,63 +115,26 @@ const PlaylistGenerator = () => {
                   className="flex items-center gap-2 text-lg font-semibold"
                 >
                   <Package2 className="h-6 w-6" />
-                  <span className="sr-only">Acme Inc</span>
+                  <span className="sr-only">Playlist Generator</span>
                 </Link>
                 <Link
-                  href="#"
+                  href="playlist-generator"
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
                 >
                   <Home className="h-5 w-5" />
-                  Dashboard
+                  Generations
                 </Link>
                 <Link
-                  href="#"
+                  href="playlist-generator/your-playlists"
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 text-foreground hover:text-foreground"
                 >
                   <ShoppingCart className="h-5 w-5" />
-                  Orders
+                  Your Playlists
                   <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                    6
+                    {playlistTotal}
                   </Badge>
                 </Link>
-                <Link
-                  href="#"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-                >
-                  <Package className="h-5 w-5" />
-                  Products
-                </Link>
-                <Link
-                  href="#"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-                >
-                  <Users className="h-5 w-5" />
-                  Customers
-                </Link>
-                <Link
-                  href="#"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-                >
-                  <LineChart className="h-5 w-5" />
-                  Analytics
-                </Link>
               </nav>
-              <div className="mt-auto">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Upgrade to Pro</CardTitle>
-                    <CardDescription>
-                      Unlock all features and get unlimited access to our
-                      support team.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <Button size="sm" className="w-full">
-                      Upgrade
-                    </Button>
-                  </CardContent>
-                </Card>
-              </div>
             </SheetContent>
           </Sheet>
           <div className="w-full flex-1">
@@ -196,9 +157,11 @@ const PlaylistGenerator = () => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem>Spotify Account</DropdownMenuItem>
+              <DropdownMenuItem onSelect={redirectToSpotify} disabled={loading}>
+                Spotify Account
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
+              <DropdownMenuItem onSelect={logout}>Logout</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </header>
@@ -839,12 +802,16 @@ export {
 }
 
 // File: app/layout.tsx
+import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter as FontSans, Inter } from "next/font/google";
 import "./globals.css";
-
 const inter = Inter({ subsets: ["latin"] });
 
+const fontSans = FontSans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
 export const metadata: Metadata = {
   title: "Spotify",
   description: "Spotify playlist generator",
@@ -857,7 +824,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased",
+          fontSans.variable
+        )}
+      >
+        {children}
+      </body>
     </html>
   );
 }
@@ -882,6 +856,41 @@ const page = () => {
 
 export default page;
 
+// File: app/playlist-generator/layout.tsx
+import { cn } from "@/lib/utils";
+import type { Metadata } from "next";
+import { Inter as FontSans, Inter } from "next/font/google";
+
+const inter = Inter({ subsets: ["latin"] });
+
+const fontSans = FontSans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
+export const metadata: Metadata = {
+  title: "Spotify",
+  description: "Spotify playlist generator",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <body
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased",
+          fontSans.variable
+        )}
+      >
+        {children}
+      </body>
+    </html>
+  );
+}
+
 // File: app/playlist-generator/page.tsx
 "use client";
 
@@ -894,27 +903,51 @@ const Page = () => {
   const router = useRouter();
 
   useEffect(() => {
-    // Extract the access token from the URL hash
-    if (typeof window !== "undefined") {
-      const hash = window.location.hash;
-      if (hash) {
-        const token = new URLSearchParams(hash.substring(1)).get(
-          "access_token"
-        );
-        if (token) {
-          setToken(token);
+    const fetchToken = async () => {
+      if (typeof window !== "undefined") {
+        const storedToken = localStorage.getItem("spotifyToken");
+        const expirationTime = localStorage.getItem("tokenExpiration");
+
+        if (storedToken && expirationTime) {
+          const now = new Date().getTime();
+          if (now < parseInt(expirationTime)) {
+            setToken(storedToken);
+          } else {
+            localStorage.removeItem("spotifyToken");
+            localStorage.removeItem("tokenExpiration");
+          }
+        } else {
+          const hash = window.location.hash;
+          if (hash) {
+            const params = new URLSearchParams(hash.substring(1));
+            const accessToken = params.get("access_token");
+            const expiresIn = params.get("expires_in");
+
+            if (accessToken && expiresIn) {
+              const expirationTime =
+                new Date().getTime() + parseInt(expiresIn) * 1000;
+              localStorage.setItem("spotifyToken", accessToken);
+              localStorage.setItem(
+                "tokenExpiration",
+                expirationTime.toString()
+              );
+              setToken(accessToken);
+              // Clean up the URL after setting the token
+              window.location.hash = hash;
+              router.replace(window.location.pathname);
+            }
+          }
         }
-        // Clean up the URL
-        router.replace(window.location.pathname);
       }
-    }
+    };
+
+    fetchToken();
   }, [router]);
 
   return (
     <div>
       {token ? (
         <>
-          {/* <div>You are connected! Access Token: {token}</div> */}
           <PlaylistGenerator />
         </>
       ) : (

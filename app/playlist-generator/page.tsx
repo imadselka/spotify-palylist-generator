@@ -1,6 +1,5 @@
 "use client";
 
-import PlaylistGenerator from "@/components/playListGenerator";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -50,17 +49,7 @@ const Page = () => {
     fetchToken();
   }, [router]);
 
-  return (
-    <div>
-      {token ? (
-        <>
-          <PlaylistGenerator />
-        </>
-      ) : (
-        <div>Connecting...</div>
-      )}
-    </div>
-  );
+  return <div>{token ? <div></div> : <div></div>}</div>;
 };
 
 export default Page;

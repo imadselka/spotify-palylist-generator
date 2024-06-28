@@ -1,7 +1,8 @@
+import MainUI from "@/components/mainUI";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter as FontSans, Inter } from "next/font/google";
-import "./globals.css";
+
 const inter = Inter({ subsets: ["latin"] });
 
 const fontSans = FontSans({
@@ -26,6 +27,7 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
+        <MainUI />
         {children}
       </body>
     </html>
