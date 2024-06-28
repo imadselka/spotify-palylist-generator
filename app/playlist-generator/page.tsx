@@ -1,5 +1,6 @@
 "use client";
 
+import MainUI from "@/components/mainUI";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -49,7 +50,20 @@ const Page = () => {
     fetchToken();
   }, [router]);
 
-  return <div>{token ? <div></div> : <div></div>}</div>;
+  return (
+    <div>
+      {token ? (
+        <div>
+          <MainUI />
+        </div>
+      ) : (
+        <div className="ml-2">
+          <h1>Connection lost or token expired...</h1>
+          <h3>refresh the page</h3>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default Page;

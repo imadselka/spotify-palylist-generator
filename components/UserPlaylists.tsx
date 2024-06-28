@@ -22,8 +22,9 @@ import {
 } from "./ui/dropdown-menu";
 import { Input } from "./ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
+import UserPlaylistsComponent from "./UserPlaylistsComponent";
 
-const MainUI = () => {
+const UserPlaylists = () => {
   const { logout } = useSpotifyLogout();
   const { redirectToSpotify, loadingAccount } = useSpotifyAccount();
   const { playlistTotal, loading, error } = useGetUsersPlaylists();
@@ -133,14 +134,16 @@ const MainUI = () => {
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
           <div className="flex items-center">
-            <h1 className="text-lg font-semibold md:text-2xl">Generate</h1>
+            <h1 className="text-lg font-semibold md:text-2xl">
+              Your Playlists
+            </h1>
           </div>
           <div
             className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm"
             x-chunk="dashboard-02-chunk-1"
           >
             <div className="flex flex-col items-center gap-1 text-center">
-              <div>HERE WHERE WE CALL PLAYLIST GENERATOR COPONENT</div>
+              <UserPlaylistsComponent />
             </div>
           </div>
         </main>
@@ -149,4 +152,4 @@ const MainUI = () => {
   );
 };
 
-export default MainUI;
+export default UserPlaylists;
