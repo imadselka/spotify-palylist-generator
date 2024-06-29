@@ -1,15 +1,10 @@
 "use client";
+import useGetUserProfile from "@/hook/useGetUserProfile";
 import useGetUsersPlaylists from "@/hook/useGetUsersPlaylists";
 import useSpotifyAccount from "@/hook/useSpotifyAccount";
 import useSpotifyLogout from "@/hook/useSpotifyLogout";
-import {
-  CircleUser,
-  Home,
-  Menu,
-  Package2,
-  Search,
-  ShoppingCart,
-} from "lucide-react";
+import { Home, Menu, Package2, Search, ShoppingCart } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
@@ -28,6 +23,7 @@ const UserPlaylists = () => {
   const { logout } = useSpotifyLogout();
   const { redirectToSpotify, loadingAccount } = useSpotifyAccount();
   const { playlistTotal, loading, error } = useGetUsersPlaylists();
+  const { profilePic, loadingProfile, errorProfile } = useGetUserProfile();
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
@@ -119,7 +115,13 @@ const UserPlaylists = () => {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="secondary" size="icon" className="rounded-full">
-                <CircleUser className="h-5 w-5" />
+                <Image
+                  src={profilePic || ""}
+                  alt="User profile"
+                  width={35}
+                  height={35}
+                  className="rounded-full"
+                />
                 <span className="sr-only">Toggle user menu</span>
               </Button>
             </DropdownMenuTrigger>
