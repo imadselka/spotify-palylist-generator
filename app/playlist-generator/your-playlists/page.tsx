@@ -2,7 +2,7 @@ import UserPlaylists from "@/components/UserPlaylists";
 
 const page = () => {
   return (
-    <div>
+    <div className="">
       <UserPlaylists />
     </div>
   );

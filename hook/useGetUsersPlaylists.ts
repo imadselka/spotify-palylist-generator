@@ -1,9 +1,9 @@
-// hooks/useGetUsersPlaylists.ts
+"use client";
 import { useEffect, useState } from "react";
 import useGetUserId from "./useGetUserId";
 
 const useGetUsersPlaylists = () => {
-  const token = localStorage.getItem("spotifyToken");
+  const [token, setToken] = useState<string | null>(null);
   const {
     userId,
     loading: userIdLoading,
@@ -13,6 +13,11 @@ const useGetUsersPlaylists = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [playlistTotal, setPlaylistTotal] = useState<any>(0);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("spotifyToken");
+    setToken(storedToken);
+  }, []);
 
   useEffect(() => {
     const fetchUserPlaylists = async () => {
