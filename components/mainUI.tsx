@@ -6,6 +6,7 @@ import useSpotifyLogout from "@/hooks/useSpotifyLogout";
 import { Home, Menu, Package2, Search, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import PlayListGeneratorCard from "./PlayListGeneratorCard";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import {
@@ -138,11 +139,11 @@ const MainUI = () => {
             <h1 className="text-lg font-semibold md:text-2xl">Generate</h1>
           </div>
           <div
-            className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm"
+            className="flex flex-1 pl-10 pt-10 items-start justify-center rounded-lg border border-dashed shadow-sm"
             x-chunk="dashboard-02-chunk-1"
           >
-            <div className="flex flex-col items-center gap-1 text-center">
-              <div>HERE WHERE WE CALL PLAYLIST GENERATOR COPONENT</div>
+            <div className="flex flex-col gap-1">
+              <PlayListGeneratorCard />
             </div>
           </div>
         </main>

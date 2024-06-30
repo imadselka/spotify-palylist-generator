@@ -1,5 +1,11 @@
+import PlayListGeneratorCard from "./PlayListGeneratorCard";
+
 const playListGenerator = () => {
-  return <div>playListGenerator</div>;
+  return (
+    <div>
+      <PlayListGeneratorCard />
+    </div>
+  );
 };
 
 export default playListGenerator;

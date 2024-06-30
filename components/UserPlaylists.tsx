@@ -119,8 +119,8 @@ const UserPlaylists = () => {
                   <Image
                     src={profilePic}
                     alt="User profile"
-                    width={15}
-                    height={15}
+                    width={35}
+                    height={35}
                     className="rounded-full"
                   />
                 ) : (
