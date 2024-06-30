@@ -1,8 +1,8 @@
 "use client";
-import useGetUserProfile from "@/hook/useGetUserProfile";
-import useGetUsersPlaylists from "@/hook/useGetUsersPlaylists";
-import useSpotifyAccount from "@/hook/useSpotifyAccount";
-import useSpotifyLogout from "@/hook/useSpotifyLogout";
+import useGetUserProfile from "@/hooks/useGetUserProfile";
+import useGetUsersPlaylists from "@/hooks/useGetUsersPlaylists";
+import useSpotifyAccount from "@/hooks/useSpotifyAccount";
+import useSpotifyLogout from "@/hooks/useSpotifyLogout";
 import { Home, Menu, Package2, Search, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";

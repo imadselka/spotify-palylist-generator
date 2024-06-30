@@ -1,7 +1,7 @@
 // components/LoginButton.tsx
 import Link from "next/link";
 
-import useSpotifyAuth from "@/hook/useSpotifyAuth";
+import useSpotifyAuth from "@/hooks/useSpotifyAuth";
 import { Button } from "./ui/button";
 
 const LoginButton = () => {

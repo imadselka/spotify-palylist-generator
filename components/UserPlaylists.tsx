@@ -1,8 +1,8 @@
 "use client";
-import useGetUserProfile from "@/hook/useGetUserProfile";
-import useGetUsersPlaylists from "@/hook/useGetUsersPlaylists";
-import useSpotifyAccount from "@/hook/useSpotifyAccount";
-import useSpotifyLogout from "@/hook/useSpotifyLogout";
+import useGetUserProfile from "@/hooks/useGetUserProfile";
+import useGetUsersPlaylists from "@/hooks/useGetUsersPlaylists";
+import useSpotifyAccount from "@/hooks/useSpotifyAccount";
+import useSpotifyLogout from "@/hooks/useSpotifyLogout";
 import { Home, Menu, Package2, Search, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -115,13 +115,17 @@ const UserPlaylists = () => {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="secondary" size="icon" className="rounded-full">
-                <Image
-                  src={profilePic || ""}
-                  alt="User profile"
-                  width={35}
-                  height={35}
-                  className="rounded-full"
-                />
+                {profilePic ? (
+                  <Image
+                    src={profilePic}
+                    alt="User profile"
+                    width={15}
+                    height={15}
+                    className="rounded-full"
+                  />
+                ) : (
+                  <span className="sr-only">Loading profile...</span>
+                )}
                 <span className="sr-only">Toggle user menu</span>
               </Button>
             </DropdownMenuTrigger>
@@ -140,10 +144,8 @@ const UserPlaylists = () => {
               Your Playlists
             </h1>
           </div>
-          <div className="flex ounded-lg">
-            <div className="flex gap-1 text-center">
-              <UserPlaylistsComponent />
-            </div>
+          <div className="flex gap-4 flex-wrap">
+            <UserPlaylistsComponent />
           </div>
         </main>
       </div>

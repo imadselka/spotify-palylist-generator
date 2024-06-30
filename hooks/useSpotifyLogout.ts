@@ -1,4 +1,3 @@
-// hooks/useSpotifyLogout.ts
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 
@@ -8,7 +7,7 @@ const useSpotifyLogout = () => {
   const logout = useCallback(() => {
     localStorage.removeItem("spotifyToken");
     localStorage.removeItem("tokenExpiration");
-    router.push("/"); // Redirect to home page or login page
+    router.push("/");
   }, [router]);
 
   return { logout };

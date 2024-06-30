@@ -1,4 +1,3 @@
-// hooks/useGetUserId.ts
 import { useEffect, useState } from "react";
 
 const useGetUserId = (accessToken: string | null) => {

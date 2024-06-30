@@ -1,4 +1,4 @@
-import useGetUsersPlaylists from "@/hook/useGetUsersPlaylists";
+import useGetUsersPlaylists from "@/hooks/useGetUsersPlaylists";
 import PlaylistCard from "./playlistCard";
 
 const UserPlaylistsComponent = () => {

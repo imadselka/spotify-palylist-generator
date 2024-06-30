@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
 
 const useGetUserProfile = () => {
-  const token = localStorage.getItem("spotifyToken");
   const [loadingProfile, setLoading] = useState(false);
   const [errorProfile, setError] = useState<string | null>(null);
   const [profilePic, setProfilePic] = useState<string | null>(null);
 
   useEffect(() => {
+    const token = localStorage.getItem("spotifyToken");
+
     const fetchUserProfile = async () => {
-      if (!token) {
-        setError("No token found");
-        return;
-      }
+      if (!token) return;
 
       setLoading(true);
       setError(null);
@@ -28,16 +26,16 @@ const useGetUserProfile = () => {
         }
 
         const data = await response.json();
-        setProfilePic(data.images[0]?.url || null);
+        setProfilePic(data.images[0]?.url || "");
       } catch (error) {
-        setError((error as Error).message);
+        setError(error as unknown as string);
       } finally {
         setLoading(false);
       }
     };
 
     fetchUserProfile();
-  }, [token]);
+  }, []);
 
   return {
     profilePic,
