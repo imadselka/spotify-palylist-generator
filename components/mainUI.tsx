@@ -139,7 +139,7 @@ const MainUI = () => {
             <h1 className="text-lg font-semibold md:text-2xl">Generate</h1>
           </div>
           <div
-            className="flex flex-1 pl-10 pt-10 items-start justify-center rounded-lg border border-dashed shadow-sm"
+            className="flex flex-1 pl-10 pt-10 items-start justify-center rounded-lg"
             x-chunk="dashboard-02-chunk-1"
           >
             <div className="flex flex-col gap-1">
